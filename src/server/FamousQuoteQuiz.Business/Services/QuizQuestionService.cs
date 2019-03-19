@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FamousQuoteQuiz.Business.Services._Base;
 using FamousQuoteQuiz.Core;
 using FamousQuoteQuiz.Core.Models;
 using FamousQuoteQuiz.Core.Services;
@@ -7,22 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using Optional;
 using System.Linq;
 using System.Threading.Tasks;
-using FamousQuoteQuiz.Business.Services._Base;
 
 namespace FamousQuoteQuiz.Business.Services
 {
     public class QuizQuestionService : BaseService, IQuizQuestionService
     {
-        private readonly IMapper _mapper;
-        public QuizQuestionService(ApplicationDbContext dbContext,
-	        IMapper mapper)
+	    public QuizQuestionService(ApplicationDbContext dbContext)
 	        : base(dbContext)
         {
-	        _mapper = mapper;
         }
 
-		public async Task<Option<BinaryChoiceQuestionViewModel, Error>> 
-            GetBinaryChoiceQuestionAsync(long initialId = 0)
+		public async Task<Option<BinaryChoiceQuestionViewModel, Error>> GetBinaryChoiceQuestionAsync(long initialId = 0)
         {
             var lastRecord = await DbContext
 				.BinaryChoiceQuestions
@@ -54,8 +50,7 @@ namespace FamousQuoteQuiz.Business.Services
                 .Some<BinaryChoiceQuestionViewModel, Error>();
         }
 
-        public async Task<Option<MultipleChoiceQuizQuestionViewModel, Error>>
-            GetMultipleChoiceQuizQuestionAsync(long initialId = 0)
+        public async Task<Option<MultipleChoiceQuizQuestionViewModel, Error>> GetMultipleChoiceQuizQuestionAsync(long initialId = 0)
         {
             var lastRecord = await DbContext
 				.MultipleChoiceQuestions
@@ -68,42 +63,41 @@ namespace FamousQuoteQuiz.Business.Services
                     new Error($"Cannot find question with ID bigger than {initialId}!"));
             }
 
-            return (await DbContext
-				.MultipleChoiceQuestions
+            var multipleChoiceQuestion = await DbContext
+	            .MultipleChoiceQuestions
 	            .AsNoTracking()
+	            .Include(question => question.Quote)
 	            .Include(question => question.CorrectAuthor)
 	            .Include(question => question.Answers)
 	            .ThenInclude(answer => answer.AuthorChoice)
 	            .Where(question => question.Id > initialId)
-	            .Select(question => new MultipleChoiceQuizQuestionViewModel
+	            .FirstOrDefaultAsync();
+
+            return new MultipleChoiceQuizQuestionViewModel
+            {
+	            Id = multipleChoiceQuestion.Id,
+	            QuoteId = multipleChoiceQuestion.QuoteId,
+	            Quote = multipleChoiceQuestion.Quote.Content,
+	            CorrectAuthorId = multipleChoiceQuestion.CorrectAuthorId,
+	            Authors = new[]
 	            {
-		            Id = question.Id,
-		            QuoteId = question.QuoteId,
-		            Quote = question.Quote.Content,
-		            CorrectAuthorId = question.CorrectAuthorId,
-		            Authors = new AuthorViewModel[]
+		            new AuthorViewModel // Correct Choice
 		            {
-			            new AuthorViewModel // Correct Choice
-			            {
-				            Id = question.CorrectAuthorId,
-				            Name = question.CorrectAuthor.Name
-			            },
-			            new AuthorViewModel
-			            {
-				            Id = question.Answers.FirstOrDefault().AuthorChoice.Id,
-				            Name = question.Answers.FirstOrDefault().AuthorChoice.Name,
-						},
-			            new AuthorViewModel
-			            {
-				            Id = question.Answers.LastOrDefault().AuthorChoice.Id,
-							Name = question.Answers.LastOrDefault().AuthorChoice.Name
-						}
+			            Id = multipleChoiceQuestion.CorrectAuthorId,
+			            Name = multipleChoiceQuestion.CorrectAuthor.Name
+		            },
+		            new AuthorViewModel
+		            {
+			            Id = multipleChoiceQuestion.Answers.FirstOrDefault().AuthorChoice.Id,
+			            Name = multipleChoiceQuestion.Answers.FirstOrDefault()?.AuthorChoice.Name,
+		            },
+		            new AuthorViewModel
+		            {
+			            Id = multipleChoiceQuestion.Answers.LastOrDefault().AuthorChoice.Id,
+			            Name = multipleChoiceQuestion.Answers.LastOrDefault()?.AuthorChoice.Name
 		            }
-	            })
-	            .FirstOrDefaultAsync())
-	            .Some<MultipleChoiceQuizQuestionViewModel, Error>();
+	            }
+            }.Some<MultipleChoiceQuizQuestionViewModel, Error>();
         }
-
-
     }
 }
