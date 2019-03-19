@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace FamousQuoteQuiz.Api.Controllers
 {
-    [Route("api/[controller]")]
+	/// <summary>
+	/// A controller that manages the quiz game.
+	/// </summary>
+	[Route("api/[controller]")]
     [ApiController]
     public class QuizController : ApiController
     {
