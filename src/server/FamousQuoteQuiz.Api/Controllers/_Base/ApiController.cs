@@ -8,5 +8,8 @@ namespace FamousQuoteQuiz.Api.Controllers
     {
         protected IActionResult Error(Error error) =>
             new BadRequestObjectResult(error);
-    }
+
+        protected IActionResult NotFound(Error error) =>
+	        new NotFoundObjectResult(error);
+	}
 }

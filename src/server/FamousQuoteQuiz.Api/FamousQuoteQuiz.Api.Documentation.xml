@@ -4,6 +4,44 @@
         <name>FamousQuoteQuiz.Api</name>
     </assembly>
     <members>
+        <member name="M:FamousQuoteQuiz.Api.Controllers.QuizController.GetLastBinaryChoiceQuestion">
+            <summary>
+            Gets last <see cref="T:FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion"/>.
+            </summary>
+            <returns><see cref="T:FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion"/></returns>
+            <response code="200">If there is any <see cref="T:FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion"/>.</response>
+            <response code="404">No questions found.</response>
+        </member>
+        <member name="M:FamousQuoteQuiz.Api.Controllers.QuizController.GetBinaryChoiceQuestion(System.Int64)">
+            <summary>
+            Gets <see cref="T:FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion"/> whose ID is bigger the one received.
+            </summary>
+            <param name="initialId">
+            ID of <see cref="T:FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion"/> which has to be surpassed.
+            </param>
+            <returns><see cref="T:FamousQuoteQuiz.Core.Models.BinaryChoiceQuestionViewModel"/></returns>
+            <response code="200">If such question exists.</response>
+            <response code="400">No existing questions or no more than received.</response>
+        </member>
+        <member name="M:FamousQuoteQuiz.Api.Controllers.QuizController.GetLastMultipleChoiceQuestion">
+            <summary>
+             Gets last <see cref="T:FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion"/>.
+            </summary>
+            <returns><see cref="T:FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion"/></returns>
+            <response code="200">If there is any <see cref="T:FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion"/>.</response>
+            <response code="404">No questions found.</response>
+        </member>
+        <member name="M:FamousQuoteQuiz.Api.Controllers.QuizController.GetMultipleChoiceQuestion(System.Int64)">
+            <summary>
+            Gets <see cref="T:FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion"/> whose ID is bigger the one received.
+            </summary>
+            <param name="initialId">
+            ID of <see cref="T:FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion"/> which has to be surpassed.
+            </param>
+            <returns><see cref="T:FamousQuoteQuiz.Core.Models.MultipleChoiceQuizQuestionViewModel"/></returns>
+            <response code="200">If such question exists.</response>
+            <response code="400">No existing questions or no more than received.</response>
+        </member>
         <member name="M:FamousQuoteQuiz.Api.Controllers.UsersController.Login(FamousQuoteQuiz.Core.Models.LoginUserModel)">
             <summary>
             Login.

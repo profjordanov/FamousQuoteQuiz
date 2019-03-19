@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FamousQuoteQuiz.Business.Services._Base;
+﻿using FamousQuoteQuiz.Business.Services._Base;
 using FamousQuoteQuiz.Core;
 using FamousQuoteQuiz.Core.Models;
 using FamousQuoteQuiz.Core.Services;
@@ -20,7 +19,7 @@ namespace FamousQuoteQuiz.Business.Services
         {
         }
 
-	    public Task<Option<BinaryChoiceQuestion, Error>> GetLastBinaryChoiceQuestionAsync() =>
+        public Task<Option<BinaryChoiceQuestion, Error>> GetLastBinaryChoiceQuestionAsync() =>
 		     DbContext
 			    .BinaryChoiceQuestions
 			    .LastOrDefaultAsync()
