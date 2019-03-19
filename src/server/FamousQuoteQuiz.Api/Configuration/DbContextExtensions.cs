@@ -26,8 +26,8 @@ namespace FamousQuoteQuiz.Api.Configuration
 
             if (!dbContext.BinaryChoiceQuestions.Any())
             {
-                AddBinaryQuestion(dbContext, 1, 1, true);
-                AddBinaryQuestion(dbContext, 2, 2, true);
+                AddBinaryQuestion(dbContext, 1, 5, true);
+                AddBinaryQuestion(dbContext, 2, 6, true);
             }
         }
 

@@ -44,6 +44,8 @@ namespace FamousQuoteQuiz.Api
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IJwtFactory, JwtFactory>();
+            services.AddTransient<IQuizQuestionService, QuizQuestionService>();
+
 
             services.AddMvc(options =>
             {
