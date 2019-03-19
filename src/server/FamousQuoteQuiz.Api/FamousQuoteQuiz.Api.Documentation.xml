@@ -4,6 +4,11 @@
         <name>FamousQuoteQuiz.Api</name>
     </assembly>
     <members>
+        <member name="T:FamousQuoteQuiz.Api.Controllers.QuizController">
+            <summary>
+            A controller that manages the quiz game.
+            </summary>
+        </member>
         <member name="M:FamousQuoteQuiz.Api.Controllers.QuizController.GetLastBinaryChoiceQuestion">
             <summary>
             Gets last <see cref="T:FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion"/>.

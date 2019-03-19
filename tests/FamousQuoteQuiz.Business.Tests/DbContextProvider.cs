@@ -5,8 +5,16 @@ namespace FamousQuoteQuiz.Business.Tests
 {
     public static class DbContextProvider
     {
-        public static ApplicationDbContext GetInMemoryDbContext() =>
-            new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("Business.Tests").Options);
-    }
+	    private const string TestDbConnectionString =
+		    "Server=(localdb)\\MSSQLLocalDB;" +
+			"Database=FamousQuoteQuizDb;" +
+		    "Integrated Security=True;" +
+		    "Trusted_Connection=True;" +
+		    "MultipleActiveResultSets=true;";
+
+		public static ApplicationDbContext GetSqlServerDbContext(string connectionString = TestDbConnectionString) =>
+		    new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>()
+			    .UseSqlServer(connectionString: connectionString)
+			    .Options);
+	}
 }
