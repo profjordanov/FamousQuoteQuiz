@@ -243,6 +243,32 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MultipleChoiceAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MultipleChoiceQuestionId = table.Column<long>(nullable: false),
+                    AuthorChoiceId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MultipleChoiceAnswers_Authors_AuthorChoiceId",
+                        column: x => x.AuthorChoiceId,
+                        principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MultipleChoiceAnswers_MultipleChoiceQuestions_MultipleChoiceQuestionId",
+                        column: x => x.MultipleChoiceQuestionId,
+                        principalTable: "MultipleChoiceQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -294,6 +320,16 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_MultipleChoiceAnswers_AuthorChoiceId",
+                table: "MultipleChoiceAnswers",
+                column: "AuthorChoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MultipleChoiceAnswers_MultipleChoiceQuestionId",
+                table: "MultipleChoiceAnswers",
+                column: "MultipleChoiceQuestionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MultipleChoiceQuestions_CorrectAuthorId",
                 table: "MultipleChoiceQuestions",
                 column: "CorrectAuthorId");
@@ -325,13 +361,16 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                 name: "BinaryChoiceQuestions");
 
             migrationBuilder.DropTable(
-                name: "MultipleChoiceQuestions");
+                name: "MultipleChoiceAnswers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "MultipleChoiceQuestions");
 
             migrationBuilder.DropTable(
                 name: "Authors");

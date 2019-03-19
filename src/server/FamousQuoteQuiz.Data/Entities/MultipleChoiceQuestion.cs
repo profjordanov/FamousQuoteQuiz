@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FamousQuoteQuiz.Data.Entities
 {
@@ -14,5 +15,7 @@ namespace FamousQuoteQuiz.Data.Entities
         [Required]
         public long CorrectAuthorId { get; set; }
         public virtual Author CorrectAuthor { get; set; }
+
+        public virtual ICollection<MultipleChoiceAnswer> Answers { get; set; } = new HashSet<MultipleChoiceAnswer>();
     }
 }

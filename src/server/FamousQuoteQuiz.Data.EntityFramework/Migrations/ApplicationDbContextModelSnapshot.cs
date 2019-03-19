@@ -63,6 +63,25 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                     b.ToTable("BinaryChoiceQuestions");
                 });
 
+            modelBuilder.Entity("FamousQuoteQuiz.Data.Entities.MultipleChoiceAnswer", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("AuthorChoiceId");
+
+                    b.Property<long>("MultipleChoiceQuestionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorChoiceId");
+
+                    b.HasIndex("MultipleChoiceQuestionId");
+
+                    b.ToTable("MultipleChoiceAnswers");
+                });
+
             modelBuilder.Entity("FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion", b =>
                 {
                     b.Property<long>("Id")
@@ -284,10 +303,23 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FamousQuoteQuiz.Data.Entities.MultipleChoiceAnswer", b =>
+                {
+                    b.HasOne("FamousQuoteQuiz.Data.Entities.Author", "AuthorChoice")
+                        .WithMany("ChoiceInMultipleAnswers")
+                        .HasForeignKey("AuthorChoiceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion", "MultipleChoiceQuestion")
+                        .WithMany("Answers")
+                        .HasForeignKey("MultipleChoiceQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FamousQuoteQuiz.Data.Entities.MultipleChoiceQuestion", b =>
                 {
                     b.HasOne("FamousQuoteQuiz.Data.Entities.Author", "CorrectAuthor")
-                        .WithMany("MultipleChoiceQuestions")
+                        .WithMany("CorrectInMultipleChoiceQuestions")
                         .HasForeignKey("CorrectAuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 

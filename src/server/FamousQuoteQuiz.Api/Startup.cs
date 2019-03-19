@@ -2,9 +2,11 @@
 using FamousQuoteQuiz.Api.Configuration;
 using FamousQuoteQuiz.Api.Filters;
 using FamousQuoteQuiz.Api.ModelBinders;
+using FamousQuoteQuiz.Business.Generators;
 using FamousQuoteQuiz.Business.Identity;
 using FamousQuoteQuiz.Business.Services;
 using FamousQuoteQuiz.Core.Configuration;
+using FamousQuoteQuiz.Core.Generators;
 using FamousQuoteQuiz.Core.Identity;
 using FamousQuoteQuiz.Core.Services;
 using FamousQuoteQuiz.Data.EntityFramework;
@@ -42,12 +44,14 @@ namespace FamousQuoteQuiz.Api
 
             services.AddLogging(logBuilder => logBuilder.AddSerilog(dispose: true));
 
-            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IJwtFactory, JwtFactory>();
-            services.AddTransient<IQuizQuestionService, QuizQuestionService>();
+            services.AddTransient<IRandomGenerator, RandomGenerator>();
 
+			services.AddTransient<IUsersService, UsersService>();
+			services.AddTransient<IQuizQuestionService, QuizQuestionService>();
+			services.AddTransient<IAuthorService, AuthorService>();
 
-            services.AddMvc(options =>
+			services.AddMvc(options =>
             {
                 options.ModelBinderProviders.Insert(0, new OptionModelBinderProvider());
                 options.Filters.Add<ExceptionFilter>();

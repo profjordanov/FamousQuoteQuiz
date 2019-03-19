@@ -12,7 +12,10 @@ namespace FamousQuoteQuiz.Data.Entities
         public virtual ICollection<BinaryChoiceQuestion> BinaryChoiceQuestions { get; set; }
             = new HashSet<BinaryChoiceQuestion>();
 
-        public virtual ICollection<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
+        public virtual ICollection<MultipleChoiceQuestion> CorrectInMultipleChoiceQuestions { get; set; }
             = new HashSet<MultipleChoiceQuestion>();
+
+		public virtual ICollection<MultipleChoiceAnswer> ChoiceInMultipleAnswers { get; set; }
+			= new HashSet<MultipleChoiceAnswer>();
     }
 }
