@@ -10,6 +10,6 @@ namespace FamousQuoteQuiz.Api.Controllers
             new BadRequestObjectResult(error);
 
         protected IActionResult NotFound(Error error) =>
-	        new NotFoundObjectResult(error);
-	}
+            new NotFoundObjectResult(error);
+    }
 }

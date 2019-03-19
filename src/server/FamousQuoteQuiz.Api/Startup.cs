@@ -47,11 +47,11 @@ namespace FamousQuoteQuiz.Api
             services.AddTransient<IJwtFactory, JwtFactory>();
             services.AddTransient<IRandomGenerator, RandomGenerator>();
 
-			services.AddTransient<IUsersService, UsersService>();
-			services.AddTransient<IQuizQuestionService, QuizQuestionService>();
-			services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IQuizQuestionService, QuizQuestionService>();
+            services.AddTransient<IAuthorService, AuthorService>();
 
-			services.AddMvc(options =>
+            services.AddMvc(options =>
             {
                 options.ModelBinderProviders.Insert(0, new OptionModelBinderProvider());
                 options.Filters.Add<ExceptionFilter>();

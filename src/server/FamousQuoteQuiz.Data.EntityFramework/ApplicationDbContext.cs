@@ -25,22 +25,22 @@ namespace FamousQuoteQuiz.Data.EntityFramework
 
         public DbSet<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
 
-		public DbSet<MultipleChoiceAnswer> MultipleChoiceAnswers { get; set; }
+        public DbSet<MultipleChoiceAnswer> MultipleChoiceAnswers { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ConfigureBinaryChoiceQuestionRelations();
             modelBuilder.ConfigureAuthorBinaryChoiceQuestionRelations();
             modelBuilder.ConfigureMultipleChoiceQuestionRelations();
             modelBuilder.ConfigureCorrectInMultipleChoiceQuestionsRelations();
-			modelBuilder.ConfigureMultipleChoiceAnswerRelations();
+            modelBuilder.ConfigureMultipleChoiceAnswerRelations();
 
-			base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
-		public override int SaveChanges() => SaveChanges(true);
+        public override int SaveChanges() => SaveChanges(true);
 
-		public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             ApplyAuditInfoRules();
             return base.SaveChanges(acceptAllChangesOnSuccess);

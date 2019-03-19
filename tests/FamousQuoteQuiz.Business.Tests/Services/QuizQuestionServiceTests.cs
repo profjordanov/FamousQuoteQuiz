@@ -11,208 +11,212 @@ using Xunit;
 
 namespace FamousQuoteQuiz.Business.Tests.Services
 {
-	/// <summary>
-	/// SQL Server Database Integration Testing
-	/// using xUnit, Shouldly, Arrange Act Assert Pattern.
-	/// </summary>
-	public class QuizQuestionServiceTests
-	{
-		private readonly QuizQuestionService _quizQuestionService;
-		private readonly ApplicationDbContext _dbContext;
+    /// <summary>
+    /// SQL Server Database Integration Testing
+    /// using xUnit, Shouldly, Arrange Act Assert Pattern.
+    /// </summary>
+    public class QuizQuestionServiceTests
+    {
+        private readonly QuizQuestionService _quizQuestionService;
+        private readonly ApplicationDbContext _dbContext;
 
-		public QuizQuestionServiceTests()
-		{
-			_dbContext = DbContextProvider.GetSqlServerDbContext();
-			_quizQuestionService = new QuizQuestionService(_dbContext);
-		}
+        public QuizQuestionServiceTests()
+        {
+            _dbContext = DbContextProvider.GetSqlServerDbContext();
+            _quizQuestionService = new QuizQuestionService(_dbContext);
+        }
 
-		[Theory]
-		[AutoData]
-		public async Task GetLastBinaryChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
-		{
-			// Arrange
-			await CreateNewBinaryChoiceQuestionAsync(fixture);
+        [Theory]
+        [AutoData]
+        public async Task GetLastBinaryChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
+        {
+            // Arrange
+            await CreateNewBinaryChoiceQuestionAsync(fixture);
 
-			// Act
-			var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
+            // Act
+            var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
 
-			// Assert
-			result.HasValue.ShouldBe(true);
-		}
+            // Assert
+            result.HasValue.ShouldBe(true);
 
-		[Fact]
-		public async Task GetLastBinaryChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
-		{
-			// Arrange
-			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
+            await EraseAllContentAsync();
+        }
 
-			// Act
-			var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
+        [Fact]
+        public async Task GetLastBinaryChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
+        {
+            // Arrange
+            _dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
+            await _dbContext.SaveChangesAsync();
 
-			// Assert
-			result.HasValue.ShouldBe(false);
-			result.MatchNone(error => error.Messages.ShouldAllBe(
-				msg => msg == $"Something went wrong with {nameof(BinaryChoiceQuestion)} !"));
-		}
+            // Act
+            var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
 
-		[Theory]
-		[AutoData]
-		public async Task GetBinaryChoiceQuestionAsync_Returns_None_When_There_Is_No_Expected_Question(Fixture fixture)
-		{
-			// Arrange
-			await CreateNewBinaryChoiceQuestionAsync(fixture);
+            // Assert
+            result.HasValue.ShouldBe(false);
+            result.MatchNone(error => error.Messages.ShouldAllBe(
+                msg => msg == $"Something went wrong with {nameof(BinaryChoiceQuestion)} !"));
+        }
 
-			// Act
-			var result = await _quizQuestionService.GetBinaryChoiceQuestionAsync(long.MaxValue);
+        [Theory]
+        [AutoData]
+        public async Task GetBinaryChoiceQuestionAsync_Returns_None_When_There_Is_No_Expected_Question(Fixture fixture)
+        {
+            // Arrange
+            await CreateNewBinaryChoiceQuestionAsync(fixture);
 
-			// Assert
-			result.HasValue.ShouldBe(false);
-			result.MatchNone(error => error.Messages.ShouldAllBe(
-				msg => msg == $"Cannot find question with ID bigger than {long.MaxValue}!"));
-		}
+            // Act
+            var result = await _quizQuestionService.GetBinaryChoiceQuestionAsync(long.MaxValue);
 
-		[Theory]
-		[AutoData]
-		public async Task GetLastMultipleChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
-		{
-			// Arrange
-			await CreateMultipleChoiceQuestionAsync(fixture);
+            // Assert
+            result.HasValue.ShouldBe(false);
+            result.MatchNone(error => error.Messages.ShouldAllBe(
+                msg => msg == "Question limit has been reached!"));
 
-			// Act
-			var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
+            await EraseAllContentAsync();
+        }
 
-			// Assert
-			result.HasValue.ShouldBe(true);
-			await EraseAllContentAsync();
-		}
+        [Theory]
+        [AutoData]
+        public async Task GetLastMultipleChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
+        {
+            // Arrange
+            await CreateMultipleChoiceQuestionAsync(fixture);
 
-		[Fact]
-		public async Task GetLastMultipleChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
-		{
-			// Arrange
-			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
+            // Act
+            var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
 
-			// Act
-			var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
+            // Assert
+            result.HasValue.ShouldBe(true);
+            await EraseAllContentAsync();
+        }
 
-			// Assert
-			result.HasValue.ShouldBe(false);
-			result.MatchNone(error => error.Messages.ShouldAllBe(
-				msg => msg == $"Something went wrong with {nameof(MultipleChoiceQuestion)} !"));
-		}
+        [Fact]
+        public async Task GetLastMultipleChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
+        {
+            // Arrange
+            _dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
+            await _dbContext.SaveChangesAsync();
 
-		private async Task<BinaryChoiceQuestion> CreateNewBinaryChoiceQuestionAsync(Fixture fixture)
-		{
-			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
+            // Act
+            var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
 
-			var author = new Author
-			{
-				Name = fixture.Create<string>()
-			};
-			await _dbContext.Authors.AddAsync(author);
-			await _dbContext.SaveChangesAsync();
+            // Assert
+            result.HasValue.ShouldBe(false);
+            result.MatchNone(error => error.Messages.ShouldAllBe(
+                msg => msg == $"Something went wrong with {nameof(MultipleChoiceQuestion)} !"));
+        }
 
-			var quote = new Quote
-			{
-				Content = fixture.Create<string>()
-			};
+        private async Task<BinaryChoiceQuestion> CreateNewBinaryChoiceQuestionAsync(Fixture fixture)
+        {
+            _dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
+            await _dbContext.SaveChangesAsync();
 
-			await _dbContext.Quotes.AddAsync(quote);
-			await _dbContext.SaveChangesAsync();
+            var author = new Author
+            {
+                Name = fixture.Create<string>()
+            };
+            await _dbContext.Authors.AddAsync(author);
+            await _dbContext.SaveChangesAsync();
 
-			var binaryChoiceQuestion = new BinaryChoiceQuestion
-			{
-				QuoteId = quote.Id,
-				AuthorId = author.Id,
-				IsTrue = fixture.Create<bool>()
-			};
+            var quote = new Quote
+            {
+                Content = fixture.Create<string>()
+            };
 
-			await _dbContext.BinaryChoiceQuestions.AddAsync(binaryChoiceQuestion);
-			await _dbContext.SaveChangesAsync();
+            await _dbContext.Quotes.AddAsync(quote);
+            await _dbContext.SaveChangesAsync();
 
-			return binaryChoiceQuestion;
-		}
+            var binaryChoiceQuestion = new BinaryChoiceQuestion
+            {
+                QuoteId = quote.Id,
+                AuthorId = author.Id,
+                IsTrue = fixture.Create<bool>()
+            };
 
-		private async Task<MultipleChoiceQuestion> CreateMultipleChoiceQuestionAsync(Fixture fixture)
-		{
-			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
+            await _dbContext.BinaryChoiceQuestions.AddAsync(binaryChoiceQuestion);
+            await _dbContext.SaveChangesAsync();
 
-			var author = new Author
-			{
-				Name = fixture.Create<string>()
-			};
-			var authorX = new Author
-			{
-				Name = fixture.Create<string>()
-			};
-			var authorY = new Author
-			{
-				Name = fixture.Create<string>()
-			};
+            return binaryChoiceQuestion;
+        }
 
-			await _dbContext.Authors.AddRangeAsync(author, authorX, authorY);
-			await _dbContext.SaveChangesAsync();
+        private async Task<MultipleChoiceQuestion> CreateMultipleChoiceQuestionAsync(Fixture fixture)
+        {
+            _dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
+            await _dbContext.SaveChangesAsync();
 
-			var quote = new Quote
-			{
-				Content = fixture.Create<string>()
-			};
+            var author = new Author
+            {
+                Name = fixture.Create<string>()
+            };
+            var authorX = new Author
+            {
+                Name = fixture.Create<string>()
+            };
+            var authorY = new Author
+            {
+                Name = fixture.Create<string>()
+            };
 
-			await _dbContext.Quotes.AddAsync(quote);
-			await _dbContext.SaveChangesAsync();
+            await _dbContext.Authors.AddRangeAsync(author, authorX, authorY);
+            await _dbContext.SaveChangesAsync();
 
-			var multipleChoiceQuestion = new MultipleChoiceQuestion
-			{
-				QuoteId = quote.Id,
-				CorrectAuthorId = author.Id
-			};
+            var quote = new Quote
+            {
+                Content = fixture.Create<string>()
+            };
 
-			await _dbContext.MultipleChoiceQuestions.AddAsync(multipleChoiceQuestion);
-			await _dbContext.SaveChangesAsync();
+            await _dbContext.Quotes.AddAsync(quote);
+            await _dbContext.SaveChangesAsync();
 
-			var answerX = new MultipleChoiceAnswer
-			{
-				MultipleChoiceQuestionId = multipleChoiceQuestion.Id,
-				AuthorChoiceId = authorX.Id
-			};
+            var multipleChoiceQuestion = new MultipleChoiceQuestion
+            {
+                QuoteId = quote.Id,
+                CorrectAuthorId = author.Id
+            };
 
-			var answerY = new MultipleChoiceAnswer
-			{
-				MultipleChoiceQuestionId = multipleChoiceQuestion.Id,
-				AuthorChoiceId = authorY.Id
-			};
+            await _dbContext.MultipleChoiceQuestions.AddAsync(multipleChoiceQuestion);
+            await _dbContext.SaveChangesAsync();
 
-			await _dbContext.MultipleChoiceAnswers.AddRangeAsync(new List<MultipleChoiceAnswer>
-			{
-				answerY,
-				answerX
-			});
+            var answerX = new MultipleChoiceAnswer
+            {
+                MultipleChoiceQuestionId = multipleChoiceQuestion.Id,
+                AuthorChoiceId = authorX.Id
+            };
 
-			await _dbContext.SaveChangesAsync();
+            var answerY = new MultipleChoiceAnswer
+            {
+                MultipleChoiceQuestionId = multipleChoiceQuestion.Id,
+                AuthorChoiceId = authorY.Id
+            };
 
-			return multipleChoiceQuestion;
-		}
+            await _dbContext.MultipleChoiceAnswers.AddRangeAsync(new List<MultipleChoiceAnswer>
+            {
+                answerY,
+                answerX
+            });
 
-		private async Task EraseAllContentAsync()
-		{
-			_dbContext.Authors.RemoveRange(_dbContext.Authors);
-			await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-			_dbContext.Quotes.RemoveRange(_dbContext.Quotes);
-			await _dbContext.SaveChangesAsync();
+            return multipleChoiceQuestion;
+        }
 
-			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
+        private async Task EraseAllContentAsync()
+        {
+            _dbContext.Authors.RemoveRange(_dbContext.Authors);
+            await _dbContext.SaveChangesAsync();
 
-			_dbContext.MultipleChoiceAnswers.RemoveRange(_dbContext.MultipleChoiceAnswers);
-			await _dbContext.SaveChangesAsync();
+            _dbContext.Quotes.RemoveRange(_dbContext.Quotes);
+            await _dbContext.SaveChangesAsync();
 
-			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
-		}
-	}
+            _dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
+            await _dbContext.SaveChangesAsync();
+
+            _dbContext.MultipleChoiceAnswers.RemoveRange(_dbContext.MultipleChoiceAnswers);
+            await _dbContext.SaveChangesAsync();
+
+            _dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
 }

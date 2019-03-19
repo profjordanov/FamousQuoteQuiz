@@ -15,7 +15,7 @@ namespace FamousQuoteQuiz.Data.Entities
         public virtual ICollection<MultipleChoiceQuestion> CorrectInMultipleChoiceQuestions { get; set; }
             = new HashSet<MultipleChoiceQuestion>();
 
-		public virtual ICollection<MultipleChoiceAnswer> ChoiceInMultipleAnswers { get; set; }
-			= new HashSet<MultipleChoiceAnswer>();
+        public virtual ICollection<MultipleChoiceAnswer> ChoiceInMultipleAnswers { get; set; }
+            = new HashSet<MultipleChoiceAnswer>();
     }
 }

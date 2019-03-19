@@ -39,21 +39,21 @@ namespace FamousQuoteQuiz.Data.EntityFramework
 
         internal static void ConfigureCorrectInMultipleChoiceQuestionsRelations(this ModelBuilder builder)
         {
-	        builder
-		        .Entity<MultipleChoiceQuestion>()
-		        .HasOne(question => question.CorrectAuthor)
-		        .WithMany(quote => quote.CorrectInMultipleChoiceQuestions)
-		        .HasForeignKey(question => question.CorrectAuthorId);
+            builder
+                .Entity<MultipleChoiceQuestion>()
+                .HasOne(question => question.CorrectAuthor)
+                .WithMany(quote => quote.CorrectInMultipleChoiceQuestions)
+                .HasForeignKey(question => question.CorrectAuthorId);
         }
 
         internal static void ConfigureMultipleChoiceAnswerRelations(this ModelBuilder builder)
         {
-	        builder
-		        .Entity<MultipleChoiceAnswer>()
-		        .HasOne(question => question.AuthorChoice)
-		        .WithMany(quote => quote.ChoiceInMultipleAnswers)
-		        .HasForeignKey(question => question.AuthorChoiceId)
-		        .OnDelete(DeleteBehavior.Restrict);
-		}
-	}
+            builder
+                .Entity<MultipleChoiceAnswer>()
+                .HasOne(question => question.AuthorChoice)
+                .WithMany(quote => quote.ChoiceInMultipleAnswers)
+                .HasForeignKey(question => question.AuthorChoiceId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
 }

@@ -2,6 +2,6 @@
 {
     public interface IRandomGenerator
     {
-	    long GetRandomNumber(long min, long max);
+        long GetRandomNumber(long min, long max);
     }
 }
