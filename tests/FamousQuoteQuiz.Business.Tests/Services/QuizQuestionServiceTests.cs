@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FamousQuoteQuiz.Business.Services;
 using FamousQuoteQuiz.Data.Entities;
@@ -30,6 +31,79 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 		public async Task GetLastBinaryChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
 		{
 			// Arrange
+			await CreateNewBinaryChoiceQuestionAsync(fixture);
+
+			// Act
+			var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
+
+			// Assert
+			result.HasValue.ShouldBe(true);
+		}
+
+		[Fact]
+		public async Task GetLastBinaryChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
+		{
+			// Arrange
+			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
+			await _dbContext.SaveChangesAsync();
+
+			// Act
+			var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
+
+			// Assert
+			result.HasValue.ShouldBe(false);
+			result.MatchNone(error => error.Messages.ShouldAllBe(
+				msg => msg == $"Something went wrong with {nameof(BinaryChoiceQuestion)} !"));
+		}
+
+		[Theory]
+		[AutoData]
+		public async Task GetBinaryChoiceQuestionAsync_Returns_None_When_There_Is_No_Expected_Question(Fixture fixture)
+		{           
+			// Arrange
+			await CreateNewBinaryChoiceQuestionAsync(fixture);
+
+			// Act
+			var result = await _quizQuestionService.GetBinaryChoiceQuestionAsync(long.MaxValue);
+
+			// Assert
+			result.HasValue.ShouldBe(false);
+			result.MatchNone(error => error.Messages.ShouldAllBe(
+				msg => msg == $"Cannot find question with ID bigger than {long.MaxValue}!"));
+		}
+
+		[Theory]
+		[AutoData]
+		public async Task GetLastMultipleChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
+		{
+			// Arrange
+			await CreateMultipleChoiceQuestionAsync(fixture);
+
+			// Act
+			var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
+
+			// Assert
+			result.HasValue.ShouldBe(true);
+		}
+
+		[Fact]
+		public async Task GetLastMultipleChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
+		{
+			// Arrange
+			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
+			await _dbContext.SaveChangesAsync();
+
+			// Act
+			var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
+
+			// Assert
+			result.HasValue.ShouldBe(false);
+			result.MatchNone(error => error.Messages.ShouldAllBe(
+				msg => msg == $"Something went wrong with {nameof(MultipleChoiceQuestion)} !"));
+		}
+
+		private async Task<BinaryChoiceQuestion> CreateNewBinaryChoiceQuestionAsync(Fixture fixture)
+		{
 			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
 			await _dbContext.SaveChangesAsync();
 
@@ -58,34 +132,11 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 			await _dbContext.BinaryChoiceQuestions.AddAsync(binaryChoiceQuestion);
 			await _dbContext.SaveChangesAsync();
 
-			// Act
-			var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
-
-			// Assert
-			result.HasValue.ShouldBe(true);
+			return binaryChoiceQuestion;
 		}
 
-		[Fact]
-		public async Task GetLastBinaryChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
+		private async Task<MultipleChoiceQuestion> CreateMultipleChoiceQuestionAsync(Fixture fixture)
 		{
-			// Arrange
-			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
-
-			// Act
-			var result = await _quizQuestionService.GetLastBinaryChoiceQuestionAsync();
-
-			// Assert
-			result.HasValue.ShouldBe(false);
-			result.MatchNone(error => error.Messages.ShouldAllBe(
-				msg => msg == $"Something went wrong with {nameof(BinaryChoiceQuestion)} !"));
-		}
-
-		[Theory]
-		[AutoData]
-		public async Task GetLastMultipleChoiceQuestionAsync_Returns_Correct_Data(Fixture fixture)
-		{
-			// Arrange
 			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
 			await _dbContext.SaveChangesAsync();
 
@@ -142,27 +193,7 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 
 			await _dbContext.SaveChangesAsync();
 
-			// Act
-			var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
-
-			// Assert
-			result.HasValue.ShouldBe(true);
-		}
-
-		[Fact]
-		public async Task GetLastMultipleChoiceQuestionAsync_Returns_None_When_There_Are_No_Questions()
-		{
-			// Arrange
-			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
-			await _dbContext.SaveChangesAsync();
-
-			// Act
-			var result = await _quizQuestionService.GetLastMultipleChoiceQuestionAsync();
-
-			// Assert
-			result.HasValue.ShouldBe(false);
-			result.MatchNone(error => error.Messages.ShouldAllBe(
-				msg => msg == $"Something went wrong with {nameof(MultipleChoiceQuestion)} !"));
+			return multipleChoiceQuestion;
 		}
 	}
 }
