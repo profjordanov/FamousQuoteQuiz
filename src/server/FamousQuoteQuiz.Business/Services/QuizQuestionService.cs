@@ -19,7 +19,8 @@ namespace FamousQuoteQuiz.Business.Services
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
 
-        public QuizQuestionService(ApplicationDbContext dbContext,
+        public QuizQuestionService(
+            ApplicationDbContext dbContext,
             IMapper mapper)
         {
             _dbContext = dbContext;

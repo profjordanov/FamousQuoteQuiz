@@ -24,5 +24,11 @@ namespace FamousQuoteQuiz.Api.Controllers
         public async Task<IActionResult> GetBinaryChoiceQuestion([FromQuery] long initialId) =>
             (await _quizQuestionService.GetBinaryChoiceQuestionAsync(initialId))
             .Match(Ok, Error);
+
+        [HttpGet]
+        [Route("multiple-choice-question")]
+        public async Task<IActionResult> GetMultipleChoiceQuestion([FromQuery] long initialId) =>
+            (await _quizQuestionService.GetMultipleChoiceQuizQuestionAsync(initialId))
+            .Match(Ok, Error);
     }
 }

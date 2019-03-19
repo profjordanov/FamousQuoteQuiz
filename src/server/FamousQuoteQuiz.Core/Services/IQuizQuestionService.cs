@@ -8,5 +8,8 @@ namespace FamousQuoteQuiz.Core.Services
     {
         Task<Option<BinaryChoiceQuestionViewModel, Error>>
             GetBinaryChoiceQuestionAsync(long initialId = 0);
+
+        Task<Option<MultipleChoiceQuizQuestionViewModel, Error>>
+            GetMultipleChoiceQuizQuestionAsync(long initialId = 0);
     }
 }

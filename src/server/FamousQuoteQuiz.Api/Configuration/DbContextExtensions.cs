@@ -29,6 +29,12 @@ namespace FamousQuoteQuiz.Api.Configuration
                 AddBinaryQuestion(dbContext, 1, 5, true);
                 AddBinaryQuestion(dbContext, 2, 6, true);
             }
+
+            if (!dbContext.MultipleChoiceQuestions.Any())
+            {
+                AddMultipleChoiceQuestion(dbContext, 1, 5);
+                AddMultipleChoiceQuestion(dbContext, 2, 6);
+            }
         }
 
         private static void AddAuthor(ApplicationDbContext dbContext, string name)
