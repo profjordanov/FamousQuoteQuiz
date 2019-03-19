@@ -59,7 +59,7 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 		[Theory]
 		[AutoData]
 		public async Task GetBinaryChoiceQuestionAsync_Returns_None_When_There_Is_No_Expected_Question(Fixture fixture)
-		{           
+		{
 			// Arrange
 			await CreateNewBinaryChoiceQuestionAsync(fixture);
 
@@ -84,6 +84,7 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 
 			// Assert
 			result.HasValue.ShouldBe(true);
+			await EraseAllContentAsync();
 		}
 
 		[Fact]
@@ -194,6 +195,24 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 			await _dbContext.SaveChangesAsync();
 
 			return multipleChoiceQuestion;
+		}
+
+		private async Task EraseAllContentAsync()
+		{
+			_dbContext.Authors.RemoveRange(_dbContext.Authors);
+			await _dbContext.SaveChangesAsync();
+
+			_dbContext.Quotes.RemoveRange(_dbContext.Quotes);
+			await _dbContext.SaveChangesAsync();
+
+			_dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
+			await _dbContext.SaveChangesAsync();
+
+			_dbContext.MultipleChoiceAnswers.RemoveRange(_dbContext.MultipleChoiceAnswers);
+			await _dbContext.SaveChangesAsync();
+
+			_dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
+			await _dbContext.SaveChangesAsync();
 		}
 	}
 }
