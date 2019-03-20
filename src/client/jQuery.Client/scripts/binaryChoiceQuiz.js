@@ -69,7 +69,7 @@
 (function() {
   $(document).ready(function() {
 
-    $("#next-mult-quest-btn").click(function() {
+    $("#next-bin-quest-btn").click(function() {
       const currentQuoteId = $("#bin-quote-id").text();
 
       const querydata = {
