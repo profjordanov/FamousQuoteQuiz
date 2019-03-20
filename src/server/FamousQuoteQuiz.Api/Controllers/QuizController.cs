@@ -5,6 +5,7 @@ using FamousQuoteQuiz.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace FamousQuoteQuiz.Api.Controllers
 {
@@ -12,6 +13,7 @@ namespace FamousQuoteQuiz.Api.Controllers
     /// A controller that manages the quiz game.
     /// </summary>
     [Route("api/[controller]")]
+    [EnableCors("MyPolicy")]
     [ApiController]
     public class QuizController : ApiController
     {

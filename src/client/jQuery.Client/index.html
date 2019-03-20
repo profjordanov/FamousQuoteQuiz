@@ -5,13 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Famous Quote Quiz</title>
-    <script src="scripts/lib/jquery-3.1.1.min.js"></script>
-    <script src="scripts/lib/jquery-ui.min.js"></script>
-    <script src="scripts/jquery.fancybox.pack.js"></script>
-    <script src="scripts/index-script.js"></script>
+
     <link rel="stylesheet" href="css/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery.fancybox.css">
     <link rel="stylesheet" href="css/index-css.css">
+
+    <script>
+        var baseSurviceQuizUrl = "http://localhost:5000/api/quiz/";
+    </script>
+    <script src="scripts/lib/jquery-3.1.1.min.js"></script>
+    <script src="scripts/lib/jquery-ui.min.js"></script>
+    <script src="scripts/jquery.fancybox.pack.js"></script>
+    <script src="scripts/encodeQueryData.js"></script>
+    <script src="scripts/index-script.js"></script>
+    <script src="scripts/getLastBinaryChoiceQuestion.js"></script>
+    <script src="scripts/getLastMultipleChoiceQuestion.js"></script>
+    <script src="scripts/binaryChoiceQuiz.js"></script>
+    <script src="scripts/multipleChoiceQuiz.js"></script>
+    <script src="scripts/settings.js"></script>
+
 </head>
 
 <body>
@@ -32,18 +44,53 @@
         </nav>
     </header>
     <main>
-        <div id="page55">
+
+        <div id="binary-choice-question-quiz-page">
             <div class="row">
                 <div class="col-md-8 flex-box-container col-lg-offset-2">
                     <div class="weekly-sale flex-item">
-                        <h1>Statement <span>T-Shirts!</span></h1>
-                        <p>Be Different!</p>
-                        <p>Be Soft-Unique!</p>
-                        <button><a href="pages/t-shirts.html">Shop now</a></button>
+                        <input type="hidden" id="bin-quote-id">
+                        <input type="hidden" id="bin-quote-isTrue">
+                        <h1 id="bin-quote-content" style="font-style: italic;">Quote</h1>
+                        <p>Did
+                            <span id="bin-quote-author" style="font-size: large;">author</span>
+                            say this?
+                        </p>
+                        <div id="yes-no-buttons">
+                            <button class="btn btn-lg btn-success" id="true-bin-answ-btn">YES</button>
+                            <button class="btn btn-lg btn-danger" id="false-bin-answ-btn">NO</button>
+                        </div>
+
+                        <button class="btn btn-lg btn-default" id="next-bin-quest-btn" style="display: none;">
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="multiple-choice-question-quiz-page"   style="display: none;">
+            <div class="row">
+                <div class="col-md-8 flex-box-container col-lg-offset-2">
+                    <div class="weekly-sale flex-item">
+                        <input type="hidden" id="mult-quest-id">
+                        <input type="hidden" id="correct-author-id">
+                        <input type="hidden" id="correct-author-name">
+                        <h3 style="color: white;">Who said it?</h3>
+                        <h1 id="mult-quote-content" style="font-style: italic;">Quote</h1>
+                        <div id="answers-buttons">
+                            <button class="foot-subscribe-btn" id="authorX">AuthorX</button>
+                            <button class="foot-subscribe-btn" id="authorY">AuthorY</button>
+                            <button class="foot-subscribe-btn" id="authorZ">AuthorZ</button>
+                        </div>
+                        <button class="btn btn-lg btn-default" id="next-mult-quest-btn" style="display: none;">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
     <footer>
         <section class="row newsletter-bar">
@@ -69,6 +116,57 @@
             <button class="btn btn-primary" id="set-binary-choice-btn">Binary Choice Questions</button>
             <br>
             <button class="btn btn-danger" id="set-multiple-choice-btn">Multiple Choice Questions</button>
+        </div>
+    </div>
+
+    <div id="correct-binary-choice-answer" class="popup">
+        <div class="popup-title">
+            <h2 style="color: green;">Correct!</h2>
+        </div>
+        <div class="popup-content">
+            <p id="correct-choice-additional-info"></p>
+        </div>
+    </div>
+
+    <div id="incorrect-binary-choice-answer" class="popup">
+        <div class="popup-title">
+            <h2 style="color: red;">Sorry, you are wrong!</h2>
+        </div>
+        <div class="popup-content">
+            <p id="incorrect-choice-additional-info"></p>
+        </div>
+    </div>
+
+    <div id="correct-quiz-end-popup" class="popup">
+        <div class="popup-title">
+            <h2 style="color: green;">Correct!</h2>
+        </div>
+        <div class="popup-content">
+            <p>Congratulations! You have reached the end of the quiz! You can go to
+                <a class="fancybox" href="#settings" title="Settings">Settings</a>
+                and try another question type.
+            </p>
+        </div>
+    </div>
+
+    <div id="incorrect-quiz-end-popup" class="popup">
+        <div class="popup-title">
+            <h2 style="color: red;">Sorry, you are wrong!</h2>
+        </div>
+        <div class="popup-content">
+            <p>Congratulations! You have reached the end of the quiz! You can go to
+                <a class="fancybox" href="#settings" title="Settings">Settings</a>
+                and try another question type.
+            </p>
+        </div>
+    </div>
+
+    <div id="error" class="popup">
+        <div class="popup-title">
+            <h2>A connection error has occurred!</h2>
+        </div>
+        <div class="popup-content">
+            <p>Please, contact our customer service team!</p>
         </div>
     </div>
 </div>

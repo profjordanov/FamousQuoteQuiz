@@ -42,6 +42,14 @@ namespace FamousQuoteQuiz.Api
             services.AddSwagger();
             services.AddJwtIdentity(Configuration.GetSection(nameof(JwtConfiguration)));
 
+            // Add Cors
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddLogging(logBuilder => logBuilder.AddSerilog(dispose: true));
 
             services.AddTransient<IJwtFactory, JwtFactory>();
@@ -71,6 +79,9 @@ namespace FamousQuoteQuiz.Api
             {
                 app.UseHsts();
             }
+
+            // Enable Cors
+            app.UseCors("MyPolicy");
 
             loggerFactory.AddLogging(Configuration.GetSection("Logging"));
 
