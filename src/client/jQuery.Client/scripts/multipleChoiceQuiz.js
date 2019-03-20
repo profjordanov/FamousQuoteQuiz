@@ -47,13 +47,23 @@
 })();
 
 function checkCorrectAuthorById (authorNid) {
+  const questId = $("#mult-quest-id").text();
   const correctAuthorId = $("#correct-author-id").text();
   const correctAuthorName = $("#correct-author-name").text();
+  const lastMultipleChoiceQuestionId = localStorage.lastMultipleChoiceQuestionId;
 
   if(correctAuthorId == authorNid){
-    $.fancybox("Correct! The right answer is: " + correctAuthorName);
+    if(questId == lastMultipleChoiceQuestionId){
+      showFinalCorrectUserAnswer(correctAuthorName);
+    }else{
+      showCorrectUserAnswer(correctAuthorName);
+    }
   }else{
-    $.fancybox("Sorry, you are wrong! The right answer is: " + correctAuthorName);
+    if(questId == lastMultipleChoiceQuestionId){
+      showFinalIncorrectUserAnswer(correctAuthorName);
+    }else{
+      showIncorrectUserAnswer(correctAuthorName);
+    }
   }
 
   showNextMultQuestBtn();
