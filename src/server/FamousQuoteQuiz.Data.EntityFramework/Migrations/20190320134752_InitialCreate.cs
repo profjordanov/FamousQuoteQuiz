@@ -197,18 +197,24 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     QuoteId = table.Column<long>(nullable: false),
-                    AuthorId = table.Column<long>(nullable: false),
-                    IsTrue = table.Column<bool>(nullable: false)
+                    QuestionableAuthorId = table.Column<long>(nullable: false),
+                    CorrectAuthorId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BinaryChoiceQuestions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BinaryChoiceQuestions_Authors_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_BinaryChoiceQuestions_Authors_CorrectAuthorId",
+                        column: x => x.CorrectAuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BinaryChoiceQuestions_Authors_QuestionableAuthorId",
+                        column: x => x.QuestionableAuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BinaryChoiceQuestions_Quotes_QuoteId",
                         column: x => x.QuoteId,
@@ -309,14 +315,19 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BinaryChoiceQuestions_QuoteId",
+                name: "IX_BinaryChoiceQuestions_CorrectAuthorId",
                 table: "BinaryChoiceQuestions",
-                column: "QuoteId");
+                column: "CorrectAuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BinaryChoiceQuestions_AuthorId_QuoteId_IsTrue",
+                name: "IX_BinaryChoiceQuestions_QuestionableAuthorId",
                 table: "BinaryChoiceQuestions",
-                columns: new[] { "AuthorId", "QuoteId", "IsTrue" },
+                column: "QuestionableAuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BinaryChoiceQuestions_QuoteId_CorrectAuthorId_QuestionableAuthorId",
+                table: "BinaryChoiceQuestions",
+                columns: new[] { "QuoteId", "CorrectAuthorId", "QuestionableAuthorId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

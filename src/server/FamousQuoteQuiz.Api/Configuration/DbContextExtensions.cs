@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FamousQuoteQuiz.Data.Entities;
+﻿using FamousQuoteQuiz.Data.Entities;
 using FamousQuoteQuiz.Data.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FamousQuoteQuiz.Api.Configuration
 {
@@ -12,12 +12,11 @@ namespace FamousQuoteQuiz.Api.Configuration
     {
         private const string StephenKingQuote = "I try to create sympathy for my characters, then turn the monsters loose.";
         private const string ErnestHemingwayQuote = "Prose is architecture, not interior decoration.";
-        private const string JohnBrownFalseQuote = "It’s none of their business that you have to learn to write. Let them think you were born that way.";
-        private const string MarkTwainQuote 
+        private const string JohnBrownFalseQuote =
+            "It’s none of their business that you have to learn to write. Let them think you were born that way.";
+        private const string MarkTwainQuote
             = "Most writers regard the truth as their most valuable possession, and therefore are most economical in its use.";
         private const string IvanIvanovFalseQuote = "To produce a mighty book, you must choose a mighty theme.";
-
-        
 
         public static void Seed(this ApplicationDbContext dbContext)
         {
@@ -44,11 +43,11 @@ namespace FamousQuoteQuiz.Api.Configuration
 
             if (!EnumerableExtensions.Any(dbContext.BinaryChoiceQuestions))
             {
-                AddBinaryQuestion(dbContext, StephenKingQuote, "Stephen King", true);
-                AddBinaryQuestion(dbContext, ErnestHemingwayQuote, "Ernest Hemingway", true);
-                AddBinaryQuestion(dbContext, JohnBrownFalseQuote, "John Brown", false);
-                AddBinaryQuestion(dbContext, MarkTwainQuote, "Mark Twain", true);
-                AddBinaryQuestion(dbContext, IvanIvanovFalseQuote, "Ivan Ivanov", false);
+                AddBinaryQuestion(dbContext, StephenKingQuote, "Stephen King", "Stephen King");
+                AddBinaryQuestion(dbContext, ErnestHemingwayQuote, "Ernest Hemingway", "Ernest Hemingway");
+                AddBinaryQuestion(dbContext, JohnBrownFalseQuote, "John Brown", "Ernest Hemingway");
+                AddBinaryQuestion(dbContext, MarkTwainQuote, "Mark Twain", "Mark Twain");
+                AddBinaryQuestion(dbContext, IvanIvanovFalseQuote, "Ivan Ivanov", "Stephen King");
 
             }
 
@@ -86,17 +85,25 @@ namespace FamousQuoteQuiz.Api.Configuration
         private static void AddBinaryQuestion(
             ApplicationDbContext dbContext,
             string quote,
-            string author,
-            bool isTrue)
+            string questionableAuthor,
+            string correctAuthor)
         {
             var quoteId = dbContext.Quotes.FirstOrDefault(q => q.Content == quote)?.Id;
-            var authorId = dbContext.Authors.FirstOrDefault(a => a.Name == author)?.Id;
+            var questionableAuthorId = dbContext
+                .Authors
+                .FirstOrDefault(a => a.Name == questionableAuthor)?
+                .Id;
+
+            var correctAuthorId = dbContext
+                .Authors
+                .FirstOrDefault(a => a.Name == correctAuthor)?
+                .Id;
 
             var binaryChoiceQuestion = new BinaryChoiceQuestion
             {
                 QuoteId = quoteId.Value,
-                AuthorId = authorId.Value,
-                IsTrue = isTrue
+                QuestionableAuthorId = questionableAuthorId.Value,
+                CorrectAuthorId = correctAuthorId.Value
             };
 
             dbContext.BinaryChoiceQuestions.Add(binaryChoiceQuestion);
@@ -112,7 +119,7 @@ namespace FamousQuoteQuiz.Api.Configuration
             var authorId = dbContext.Authors.FirstOrDefault(a => a.Name == correctAuthor)?.Id;
 
             var firstIncrAuthor = dbContext.Authors.FirstOrDefault(a => a.Id != authorId);
-            var secIncrAuthor = dbContext.Authors.FirstOrDefault(a => a.Id != authorId && 
+            var secIncrAuthor = dbContext.Authors.FirstOrDefault(a => a.Id != authorId &&
                                                                        a.Id != firstIncrAuthor.Id);
 
             var multipleChoiceQuestion = new MultipleChoiceQuestion

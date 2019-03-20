@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190319115221_InitialCreate")]
+    [Migration("20190320134752_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,17 +49,19 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AuthorId");
+                    b.Property<long>("CorrectAuthorId");
 
-                    b.Property<bool>("IsTrue");
+                    b.Property<long>("QuestionableAuthorId");
 
                     b.Property<long>("QuoteId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuoteId");
+                    b.HasIndex("CorrectAuthorId");
 
-                    b.HasIndex("AuthorId", "QuoteId", "IsTrue")
+                    b.HasIndex("QuestionableAuthorId");
+
+                    b.HasIndex("QuoteId", "CorrectAuthorId", "QuestionableAuthorId")
                         .IsUnique();
 
                     b.ToTable("BinaryChoiceQuestions");
@@ -294,10 +296,15 @@ namespace FamousQuoteQuiz.Data.EntityFramework.Migrations
 
             modelBuilder.Entity("FamousQuoteQuiz.Data.Entities.BinaryChoiceQuestion", b =>
                 {
-                    b.HasOne("FamousQuoteQuiz.Data.Entities.Author", "Author")
-                        .WithMany("BinaryChoiceQuestions")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("FamousQuoteQuiz.Data.Entities.Author", "CorrectAuthor")
+                        .WithMany("CorrectInBinaryChoiceQuestions")
+                        .HasForeignKey("CorrectAuthorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("FamousQuoteQuiz.Data.Entities.Author", "QuestionableAuthor")
+                        .WithMany("QuestionableInBinaryChoiceQuestions")
+                        .HasForeignKey("QuestionableAuthorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("FamousQuoteQuiz.Data.Entities.Quote", "Quote")
                         .WithMany("BinaryChoiceQuestions")

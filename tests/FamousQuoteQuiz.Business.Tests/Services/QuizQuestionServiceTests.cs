@@ -130,8 +130,7 @@ namespace FamousQuoteQuiz.Business.Tests.Services
             var binaryChoiceQuestion = new BinaryChoiceQuestion
             {
                 QuoteId = quote.Id,
-                AuthorId = author.Id,
-                IsTrue = fixture.Create<bool>()
+                QuestionableAuthorId = author.Id //TODO
             };
 
             await _dbContext.BinaryChoiceQuestions.AddAsync(binaryChoiceQuestion);

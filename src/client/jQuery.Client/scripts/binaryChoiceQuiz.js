@@ -24,20 +24,21 @@
     $("#true-bin-answ-btn").click(function() {
       const currentQuestionId = $("#bin-quote-id").text();
       const questIsTrue = $("#bin-quote-isTrue").text();
+      const correctAuthor = $("#bin-quote-correct-author").text();
       const lastBinaryChoiceQuestionId = localStorage.lastBinaryChoiceQuestionId;
 
       if (questIsTrue == "true") {
         if (currentQuestionId == lastBinaryChoiceQuestionId) {
-          $.fancybox("#correct-quiz-end-popup");
+          showFinalCorrectUserAnswer(correctAuthor);
         } else {
-          $.fancybox("#correct-binary-choice-answer");
+          showCorrectUserAnswer(correctAuthor);
           showNextBtn();
         }
       } else {
         if (currentQuestionId == lastBinaryChoiceQuestionId) {
-          $.fancybox("#incorrect-quiz-end-popup");
+          showFinalIncorrectUserAnswer(correctAuthor);
         } else {
-          $.fancybox("#incorrect-binary-choice-answer");
+          showIncorrectUserAnswer(correctAuthor);
           showNextBtn();
         }
       }
@@ -46,19 +47,20 @@
     $("#false-bin-answ-btn").click(function() {
       const currentQuestionId = $("#bin-quote-id").text();
       const questIsTrue = $("#bin-quote-isTrue").text();
+      const correctAuthor = $("#bin-quote-correct-author").text();
       const lastBinaryChoiceQuestionId = localStorage.lastBinaryChoiceQuestionId;
       if (questIsTrue == "true") {
         if (currentQuestionId == lastBinaryChoiceQuestionId) {
-          $.fancybox("#incorrect-quiz-end-popup");
+          showFinalIncorrectUserAnswer(correctAuthor);
         } else {
-          $.fancybox("#incorrect-binary-choice-answer");
+          showIncorrectUserAnswer(correctAuthor);
           showNextBtn();
         }
       } else {
         if (currentQuestionId == lastBinaryChoiceQuestionId) {
-          $.fancybox("#correct-quiz-end-popup");
+          showFinalCorrectUserAnswer(correctAuthor);
         } else {
-          $.fancybox("#correct-binary-choice-answer");
+          showCorrectUserAnswer(correctAuthor);
           showNextBtn();
         }
       }
@@ -98,7 +100,8 @@ function applyBinaryChoiceQuestion(data) {
   $("#bin-quote-id").text(data.id);
   $("#bin-quote-isTrue").text(data.isTrue);
   $("#bin-quote-content").text(data.quote);
-  $("#bin-quote-author").text(data.author);
+  $("#bin-quote-author").text(data.questionableAuthor);
+  $("#bin-quote-correct-author").text(data.correctAuthor);
 }
 
 function showNextBtn() {

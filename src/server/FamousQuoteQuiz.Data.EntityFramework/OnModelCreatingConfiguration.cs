@@ -9,7 +9,12 @@ namespace FamousQuoteQuiz.Data.EntityFramework
         {
             builder
                 .Entity<BinaryChoiceQuestion>()
-                .HasIndex(question => new { question.AuthorId, question.QuoteId, question.IsTrue })
+                .HasIndex(question => new
+                {
+                    question.QuoteId,
+                    question.CorrectAuthorId,
+                    question.QuestionableAuthorId
+                })
                 .IsUnique();
 
             builder
@@ -23,9 +28,18 @@ namespace FamousQuoteQuiz.Data.EntityFramework
         {
             builder
                 .Entity<BinaryChoiceQuestion>()
-                .HasOne(question => question.Author)
-                .WithMany(author => author.BinaryChoiceQuestions)
-                .HasForeignKey(question => question.AuthorId);
+                .HasOne(question => question.QuestionableAuthor)
+                .WithMany(author => author.QuestionableInBinaryChoiceQuestions)
+                .HasForeignKey(question => question.QuestionableAuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<BinaryChoiceQuestion>()
+                .HasOne(question => question.CorrectAuthor)
+                .WithMany(author => author.CorrectInBinaryChoiceQuestions)
+                .HasForeignKey(question => question.CorrectAuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
 
         internal static void ConfigureMultipleChoiceQuestionRelations(this ModelBuilder builder)

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FamousQuoteQuiz.Data.Entities
 {
@@ -12,10 +13,14 @@ namespace FamousQuoteQuiz.Data.Entities
         public virtual Quote Quote { get; set; }
 
         [Required]
-        public long AuthorId { get; set; }
-        public virtual Author Author { get; set; }
+        public long QuestionableAuthorId { get; set; }
+        public virtual Author QuestionableAuthor { get; set; }
 
         [Required]
-        public bool IsTrue { get; set; }
+        public long CorrectAuthorId { get; set; }
+        public virtual Author CorrectAuthor { get; set; }
+
+        [NotMapped]
+        public bool IsTrue => QuestionableAuthorId == CorrectAuthorId;
     }
 }

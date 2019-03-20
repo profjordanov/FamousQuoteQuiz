@@ -43,16 +43,18 @@ namespace FamousQuoteQuiz.Business.Services
                 return (await DbContext
                         .BinaryChoiceQuestions
                         .AsNoTracking()
-                        .Include(question => question.Author)
+                        .Include(question => question.QuestionableAuthor)
                         .Include(question => question.Quote)
                         .Where(question => question.Id > initialId)
                         .Select(question => new BinaryChoiceQuestionViewModel
                         {
                             Id = question.Id,
-                            AuthorId = question.AuthorId,
-                            Author = question.Author.Name,
                             QuoteId = question.QuoteId,
                             Quote = question.Quote.Content,
+                            QuestionableAuthorId = question.QuestionableAuthorId,
+                            QuestionableAuthor = question.QuestionableAuthor.Name,
+                            CorrectAuthorId = question.CorrectAuthorId,
+                            CorrectAuthor = question.CorrectAuthor.Name,
                             IsTrue = question.IsTrue
                         })
                         .FirstOrDefaultAsync())

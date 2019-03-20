@@ -20,6 +20,7 @@
     <script src="scripts/index-script.js"></script>
     <script src="scripts/getLastBinaryChoiceQuestion.js"></script>
     <script src="scripts/getLastMultipleChoiceQuestion.js"></script>
+    <script src="scripts/quizAnswerPopup.js"></script>
     <script src="scripts/binaryChoiceQuiz.js"></script>
     <script src="scripts/multipleChoiceQuiz.js"></script>
     <script src="scripts/settings.js"></script>
@@ -51,6 +52,7 @@
                     <div class="weekly-sale flex-item">
                         <input type="hidden" id="bin-quote-id">
                         <input type="hidden" id="bin-quote-isTrue">
+                        <input type="hidden" id="bin-quote-correct-author">
                         <h1 id="bin-quote-content" style="font-style: italic;">Quote</h1>
                         <p>Did
                             <span id="bin-quote-author" style="font-size: large;">author</span>
@@ -119,29 +121,30 @@
         </div>
     </div>
 
-    <div id="correct-binary-choice-answer" class="popup">
+    <div id="correct-user-answer" class="popup">
         <div class="popup-title">
             <h2 style="color: green;">Correct!</h2>
         </div>
         <div class="popup-content">
-            <p id="correct-choice-additional-info"></p>
+            <p>The right answer is: <span id="correct-author-answer"></span></p>
         </div>
     </div>
 
-    <div id="incorrect-binary-choice-answer" class="popup">
+    <div id="incorrect-user-answer" class="popup">
         <div class="popup-title">
             <h2 style="color: red;">Sorry, you are wrong!</h2>
         </div>
         <div class="popup-content">
-            <p id="incorrect-choice-additional-info"></p>
+            <p>The right answer is: <span id="incorrect-author-answer"></span></p>
         </div>
     </div>
 
-    <div id="correct-quiz-end-popup" class="popup">
+    <div id="correct-user-answer-quiz-end-popup" class="popup">
         <div class="popup-title">
             <h2 style="color: green;">Correct!</h2>
         </div>
         <div class="popup-content">
+            <p>The right answer is: <span id="correct-author-final-answer"></span></p>
             <p>Congratulations! You have reached the end of the quiz! You can go to
                 <a class="fancybox" href="#settings" title="Settings">Settings</a>
                 and try another question type.
@@ -149,11 +152,12 @@
         </div>
     </div>
 
-    <div id="incorrect-quiz-end-popup" class="popup">
+    <div id="incorrect-user-answer-quiz-end-popup" class="popup">
         <div class="popup-title">
             <h2 style="color: red;">Sorry, you are wrong!</h2>
         </div>
         <div class="popup-content">
+            <p>The right answer is: <span id="incorrect-author-final-answer"></span></p>
             <p>Congratulations! You have reached the end of the quiz! You can go to
                 <a class="fancybox" href="#settings" title="Settings">Settings</a>
                 and try another question type.

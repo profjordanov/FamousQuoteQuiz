@@ -14,7 +14,7 @@ namespace FamousQuoteQuiz.Business.Services
         private readonly IRandomGenerator _randomGenerator;
 
         public AuthorService(
-            ApplicationDbContext dbContext, 
+            ApplicationDbContext dbContext,
             IRandomGenerator randomGenerator)
             : base(dbContext)
         {
