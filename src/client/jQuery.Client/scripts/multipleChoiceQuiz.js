@@ -57,16 +57,16 @@ function checkCorrectAuthorById (authorNid) {
       showFinalCorrectUserAnswer(correctAuthorName);
     }else{
       showCorrectUserAnswer(correctAuthorName);
+      showNextMultQuestBtn();
     }
   }else{
     if(questId == lastMultipleChoiceQuestionId){
       showFinalIncorrectUserAnswer(correctAuthorName);
     }else{
       showIncorrectUserAnswer(correctAuthorName);
+      showNextMultQuestBtn();
     }
   }
-
-  showNextMultQuestBtn();
 }
 
 (function() {
@@ -120,11 +120,17 @@ function applyMultipleChoiceQuestion(data) {
 }
 
 function showNextMultQuestBtn() {
+  const correctAuthor = $("#correct-author-name").text();
+  $("#mult-quote-correct-answer").show();
+  $("#mult-quote-correct-answer").text("by " + correctAuthor);
+
   $("#next-mult-quest-btn").show();
   $("#answers-buttons").hide();
 }
 
 function showAnswersBtns() {
+  $("#mult-quote-correct-answer").hide();
+
   $("#answers-buttons").show();
   $("#next-mult-quest-btn").hide();
 }

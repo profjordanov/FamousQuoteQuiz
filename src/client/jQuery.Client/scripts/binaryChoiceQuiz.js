@@ -105,11 +105,19 @@ function applyBinaryChoiceQuestion(data) {
 }
 
 function showNextBtn() {
+  $("#who-is").hide();
+  const correctAuthor = $("#bin-quote-correct-author").text();
+  $("#bin-quote-correct-answer").show();
+  $("#bin-quote-correct-answer").text("by " + correctAuthor);
+
   $("#next-bin-quest-btn").show();
   $("#yes-no-buttons").hide();
 }
 
 function showYesNoBtns() {
+  $("#bin-quote-correct-answer").hide();
+  $("#who-is").show();
+
   $("#yes-no-buttons").show();
   $("#next-bin-quest-btn").hide();
 }
