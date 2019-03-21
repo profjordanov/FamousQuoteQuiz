@@ -8,7 +8,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 1. You'll need version `2.1.4` of the [`.NET Core SDK`](https://dotnet.microsoft.com/download).
-2.If not, you'll need to have [SQLServer](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) either installed locally or at least have some instance available to set up the connection strings.
+
+2. If not, you'll need to have [SQLServer](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) either installed locally or at least have some instance available to set up the connection strings.
 
 ### Running Using Visual Studio
 
