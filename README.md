@@ -6,6 +6,8 @@
 - [x] jQuery v3.1
 - [x] jQuery Fancybox
 - [x] Bootstrap v3.3
+- [x] Database Diagram
+![alt text](https://raw.githubusercontent.com/profjordanov/FamousQuoteQuiz/master/resources/database-diagram.PNG)
 
 ### Test Suite
 - [x] SQL Database Integration Testing
