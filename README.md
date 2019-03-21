@@ -1,7 +1,7 @@
 # FamousQuoteQuiz
 
 ## Technology Stack:
-- [x] .Net Core Web Api 2.1
+- [x] .NET Core Web API v2.1
 - [x] EntityFramework Core with SQL Server and ASP.NET Identity
 
 ## Features:
@@ -9,8 +9,9 @@
 ### Web API
 - [x] AutoMapper
 - [x] File logging with Serilog
+- [x] JWT authentication/authorization
+- [x] Stylecop
 - [x] Neat folder structure
-
 ```
 ├───src
 |   |___clients
@@ -46,7 +47,6 @@ public async Task<IActionResult> GetBinaryChoiceQuestion([FromQuery] long initia
     (await _quizQuestionService.GetBinaryChoiceQuestionAsync(initialId))
     .Match(Ok, Error);
 ```
-
 - [x] Global Model Errors Handler <br>
 - [x] Global Environment-Dependent Exception Handler <br>
 - [x] Neatly organized solution structure <br>
