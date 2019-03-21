@@ -3,6 +3,8 @@ Quiz game system asks questions and user should try to pick a correct answer.
 Depending on selected mode user will have to choose correct answer from a list of
 answers, or simply to answer with Yes/No to the question.
 
+![alt text](https://raw.githubusercontent.com/profjordanov/FamousQuoteQuiz/master/resources/settings-screen.PNG)
+
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
