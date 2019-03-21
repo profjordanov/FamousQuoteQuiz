@@ -46,3 +46,9 @@ public async Task<IActionResult> GetBinaryChoiceQuestion([FromQuery] long initia
     (await _quizQuestionService.GetBinaryChoiceQuestionAsync(initialId))
     .Match(Ok, Error);
 ```
+
+- [x] Global Model Errors Handler <br>
+- [x] Global Environment-Dependent Exception Handler <br>
+- [x] Neatly organized solution structure <br>
+- [x] Thin Controllers <br>
+- [x] Robust service layer using the [Either](http://optional-github.com) monad. <br>
