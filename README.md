@@ -16,7 +16,11 @@ These instructions will get you a copy of the project up and running on your loc
 1. Download it via `CLONE OR DOWNLOAD BUTTON`
 2. Unzip the project
 3. Open the `.sln` file using Visual Studio
-4. Set up the connection strings inside `FamousQuoteQuiz.Api/appsettings.Development.json`
+4. Set up the connection strings inside `FamousQuoteQuiz.Api/appsettings.Development.json` (or leave the set)
+5. Execute `Update-Database` inside the `Package Manager Console`
+6. Run the FamousQuoteQuiz.Api
+7. Go to src/client/jQuery.Client/index.html
+8. Have FUN!!!
 
 ## Technology Stack:
 - [x] C# 7.1
