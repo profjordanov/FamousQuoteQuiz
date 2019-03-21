@@ -1,5 +1,4 @@
-﻿using System;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using FamousQuoteQuiz.Business.Services;
 using FamousQuoteQuiz.Data.Entities;
@@ -112,11 +111,17 @@ namespace FamousQuoteQuiz.Business.Tests.Services
             _dbContext.BinaryChoiceQuestions.RemoveRange(_dbContext.BinaryChoiceQuestions);
             await _dbContext.SaveChangesAsync();
 
-            var author = new Author
+            var questionableAuthor = new Author
             {
                 Name = fixture.Create<string>()
             };
-            await _dbContext.Authors.AddAsync(author);
+
+            var correctAuthor = new Author
+            {
+                Name = fixture.Create<string>()
+            };
+
+            await _dbContext.Authors.AddRangeAsync(questionableAuthor, correctAuthor);
             await _dbContext.SaveChangesAsync();
 
             var quote = new Quote
@@ -130,7 +135,8 @@ namespace FamousQuoteQuiz.Business.Tests.Services
             var binaryChoiceQuestion = new BinaryChoiceQuestion
             {
                 QuoteId = quote.Id,
-                QuestionableAuthorId = author.Id //TODO
+                QuestionableAuthorId = questionableAuthor.Id,
+                CorrectAuthorId = correctAuthor.Id
             };
 
             await _dbContext.BinaryChoiceQuestions.AddAsync(binaryChoiceQuestion);
@@ -202,9 +208,6 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 
         private async Task EraseAllContentAsync()
         {
-            _dbContext.Authors.RemoveRange(_dbContext.Authors);
-            await _dbContext.SaveChangesAsync();
-
             _dbContext.Quotes.RemoveRange(_dbContext.Quotes);
             await _dbContext.SaveChangesAsync();
 
@@ -216,6 +219,9 @@ namespace FamousQuoteQuiz.Business.Tests.Services
 
             _dbContext.MultipleChoiceQuestions.RemoveRange(_dbContext.MultipleChoiceQuestions);
             await _dbContext.SaveChangesAsync();
-        }
+
+            _dbContext.Authors.RemoveRange(_dbContext.Authors);
+            await _dbContext.SaveChangesAsync();
+		}
     }
 }
