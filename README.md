@@ -3,6 +3,17 @@
 ## Technology Stack:
 - [x] .NET Core Web API v2.1
 - [x] EntityFramework Core with SQL Server and ASP.NET Identity
+- [x] jQuery v3.1
+- [x] jQuery Fancybox
+- [x] Bootstrap v3.3
+
+### Test Suite
+- [x] SQL Database Integration Testing
+- [x] Arrange Act Assert Pattern
+- [x] xUnit
+- [x] Autofixture
+- [x] Moq
+- [x] Shouldly
 
 ## Features:
 
@@ -52,3 +63,8 @@ public async Task<IActionResult> GetBinaryChoiceQuestion([FromQuery] long initia
 - [x] Neatly organized solution structure <br>
 - [x] Thin Controllers <br>
 - [x] Robust service layer using the [Either](http://optional-github.com) monad. <br>
+
+### jQuery Client
+- [x] Mobile-First Responsive Design
+- [x] Works correctly in the latest HTML5-compatible browsers: Chrome, Firefox, Edge, Opera, Safari 
+- [x] Followed the best practices for high-quality HTML and CSS: good formatting, good code structure, consistent naming, semantic HTML, correct usage of classes, etc.
