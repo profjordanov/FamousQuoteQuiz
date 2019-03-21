@@ -1,4 +1,7 @@
 # FamousQuoteQuiz
+Quiz game system asks questions and user should try to pick a correct answer. 
+Depending on selected mode user will have to choose correct answer from a list of
+answers, or simply to answer with Yes/No to the question.
 
 ## Technology Stack:
 - [x] .NET Core Web API v2.1
