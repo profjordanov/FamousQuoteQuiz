@@ -3,7 +3,22 @@ Quiz game system asks questions and user should try to pick a correct answer.
 Depending on selected mode user will have to choose correct answer from a list of
 answers, or simply to answer with Yes/No to the question.
 
+## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+1. You'll need version `2.1.4` of the [`.NET Core SDK`](https://dotnet.microsoft.com/download).
+2.If not, you'll need to have [SQLServer](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) either installed locally or at least have some instance available to set up the connection strings.
+
+### Running Using Visual Studio
+
+1. Download it via `CLONE OR DOWNLOAD BUTTON`
+2. Unzip the project
+3. Open the `.sln` file using Visual Studio
+4. Set up the connection strings inside `FamousQuoteQuiz.Api/appsettings.Development.json`
+
 ## Technology Stack:
+- [x] C# 7.1
 - [x] .NET Core Web API v2.1
 - [x] EntityFramework Core with SQL Server and ASP.NET Identity
 - [x] jQuery v3.1
