@@ -1,0 +1,35 @@
+binary-choice-question
+
+{
+  "questionableAuthorId": 1,
+  "questionableAuthor": "Stephen King",
+  "correctAuthorId": 1,
+  "correctAuthor": "Stephen King",
+  "isTrue": true,
+  "id": 1,
+  "quoteId": 1,
+  "quote": "I try to create sympathy for my characters, then turn the monsters loose."
+}
+
+multiple-choice-question
+
+{
+  "correctAuthorId": 1,
+  "authors": [
+    {
+      "id": 1,
+      "name": "Stephen King"
+    },
+    {
+      "id": 3,
+      "name": "John Brown"
+    },
+    {
+      "id": 2,
+      "name": "Ernest Hemingway"
+    }
+  ],
+  "id": 1,
+  "quoteId": 1,
+  "quote": "I try to create sympathy for my characters, then turn the monsters loose."
+}
