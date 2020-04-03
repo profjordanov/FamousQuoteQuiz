@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using FamousQuoteQuiz.Api.OperationFilters;
+﻿using FamousQuoteQuiz.Api.OperationFilters;
 using FamousQuoteQuiz.Core.Configuration;
 using FamousQuoteQuiz.Data.Entities;
 using FamousQuoteQuiz.Data.EntityFramework;
@@ -15,6 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace FamousQuoteQuiz.Api.Configuration
 {
