@@ -1,15 +1,26 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.1 AS base
-
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1 AS build
 WORKDIR /src
 COPY . .
-WORKDIR /src/server/FamousQuoteQuiz.Api
+WORKDIR /server/FamousQuoteQuiz.Api
 
-RUN dotnet publish FamousQuoteQuiz.Api.csproj -c Debug -o ./artifacts
+FROM microsoft/dotnet:2.2-sdk AS build
 
-FROM base AS final
-WORKDIR /server/src/server/FamousQuoteQuiz.Api/artifacts
-ENTRYPOINT ["dotnet", "FamousQuoteQuiz.Api.dll"]
+WORKDIR /server
+
+COPY --from=config /server .
+
+WORKDIR /server/src/Jbet.Api
+
+ARG DOTNET_BUILD_CONFIGURATION
+RUN dotnet publish Jbet.Api.csproj --configuration ${DOTNET_BUILD_CONFIGURATION} --output ./artifacts
+
+WORKDIR /server/src/Jbet.Api/artifacts
+
+
+ARG ASPNETCORE_ENVIRONMENT
+ENV ASPNETCORE_ENVIRONMENT ${ASPNETCORE_ENVIRONMENT}
+
+ENTRYPOINT [ "dotnet", "Jbet.Api.dll" ]
