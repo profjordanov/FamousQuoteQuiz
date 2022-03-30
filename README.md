@@ -9,7 +9,7 @@ answers, or simply to answer with Yes/No to the question.
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
-1. You'll need version `2.1.4` of the [`.NET Core SDK`](https://dotnet.microsoft.com/download).
+1. You'll need version `3.1.0` of the [`.NET Core SDK`](https://dotnet.microsoft.com/download).
 
 2. If not, you'll need to have [SQLServer](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) either installed locally or at least have some instance available to set up the connection strings.
 
@@ -24,14 +24,17 @@ These instructions will get you a copy of the project up and running on your loc
 7. Go to src/client/jQuery.Client/index.html
 8. Have FUN!!!
 
+#### Using Docker
+
+1. Execute `docker-compose up`
+
 ## Technology Stack:
-- [x] C# 7.1
-- [x] .NET Core Web API v2.1
+- [x] C#
+- [x] .NET Core Web API v3.1
 - [x] EntityFramework Core with SQL Server and ASP.NET Identity
 - [x] jQuery v3.1
 - [x] jQuery Fancybox
 - [x] Bootstrap v3.3
-- [x] Database Diagram
 ![alt text](https://raw.githubusercontent.com/profjordanov/FamousQuoteQuiz/master/resources/database-diagram.PNG)
 
 ### Test Suite
@@ -53,7 +56,8 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 ├───src
 |   |___clients
-|       ├───jQuery.Client
+|   |   ├───jQuery.Client
+|   |   ├───cordova.Client
 │   ├───configuration
 │   └───server
 │       ├───FamousQuoteQuiz.Api
