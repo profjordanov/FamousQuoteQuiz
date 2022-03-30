@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
 using AutoFixture.Kernel;
 using AutoFixture.Xunit2;
+using FamousQuoteQuiz.Business.Identity;
+using FamousQuoteQuiz.Core.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Shouldly;
@@ -10,8 +12,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using FamousQuoteQuiz.Business.Identity;
-using FamousQuoteQuiz.Core.Configuration;
 using Xunit;
 
 namespace FamousQuoteQuiz.Business.Tests.Identity

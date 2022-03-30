@@ -1,5 +1,4 @@
-﻿using FamousQuoteQuiz.Api.OperationFilters;
-using FamousQuoteQuiz.Core.Configuration;
+﻿using FamousQuoteQuiz.Core.Configuration;
 using FamousQuoteQuiz.Data.Entities;
 using FamousQuoteQuiz.Data.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,12 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace FamousQuoteQuiz.Api.Configuration
 {
@@ -84,17 +81,11 @@ namespace FamousQuoteQuiz.Api.Configuration
         {
             services.AddSwaggerGen(setup =>
             {
-                setup.SwaggerDoc("v1", new Info { Title = "FamousQuoteQuiz.Api", Version = "v1" });
+                setup.SwaggerDoc("v1", new OpenApiInfo { Title = "FamousQuoteQuiz.Api", Version = "v1" });
                 setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "FamousQuoteQuiz.Api.Documentation.xml"));
 
-                setup.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Enter 'Bearer {token}' (don't forget to add 'bearer') into the field below.", Name = "Authorization", Type = "apiKey" });
+                setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme { In = ParameterLocation.Header, Description = "Enter 'Bearer {token}' (don't forget to add 'bearer') into the field below.", Name = "Authorization", Type = SecuritySchemeType.ApiKey });
 
-                setup.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                {
-                    { "Bearer", Enumerable.Empty<string>() },
-                });
-
-                setup.OperationFilter<OptionOperationFilter>();
             });
         }
     }

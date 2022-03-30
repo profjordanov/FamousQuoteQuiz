@@ -1,8 +1,8 @@
-﻿using System.Net;
-using FamousQuoteQuiz.Core;
+﻿using FamousQuoteQuiz.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Net;
 
 namespace FamousQuoteQuiz.Api.Filters
 {

@@ -1,26 +1,20 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
+COPY ["FamousQuoteQuiz.Api/FamousQuoteQuiz.Api.csproj", "FamousQuoteQuiz.Api/"]
+RUN dotnet restore "FamousQuoteQuiz.Api/FamousQuoteQuiz.Api.csproj"
 COPY . .
-WORKDIR /server/FamousQuoteQuiz.Api
+WORKDIR "/src/FamousQuoteQuiz.Api"
+RUN dotnet build "FamousQuoteQuiz.Api.csproj" -c Debug -o /app/build
 
-FROM microsoft/dotnet:2.2-sdk AS build
+FROM build AS publish
+RUN dotnet publish "FamousQuoteQuiz.Api.csproj" -c Debug -o /app/publish
 
-WORKDIR /server
-
-COPY --from=config /server .
-
-WORKDIR /server/src/Jbet.Api
-
-ARG DOTNET_BUILD_CONFIGURATION
-RUN dotnet publish Jbet.Api.csproj --configuration ${DOTNET_BUILD_CONFIGURATION} --output ./artifacts
-
-WORKDIR /server/src/Jbet.Api/artifacts
-
-
-ARG ASPNETCORE_ENVIRONMENT
-ENV ASPNETCORE_ENVIRONMENT ${ASPNETCORE_ENVIRONMENT}
-
-ENTRYPOINT [ "dotnet", "Jbet.Api.dll" ]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "FamousQuoteQuiz.Api.dll"]

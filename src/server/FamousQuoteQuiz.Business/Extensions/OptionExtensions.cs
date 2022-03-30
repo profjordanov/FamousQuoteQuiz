@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Optional;
+using System;
 using System.Threading.Tasks;
-using Optional;
 
 namespace FamousQuoteQuiz.Business.Extensions
 {
