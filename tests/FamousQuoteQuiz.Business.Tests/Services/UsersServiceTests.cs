@@ -1,5 +1,9 @@
 ﻿using AutoFixture.Xunit2;
 using AutoMapper;
+using FamousQuoteQuiz.Business.Services;
+using FamousQuoteQuiz.Core.Identity;
+using FamousQuoteQuiz.Core.Models;
+using FamousQuoteQuiz.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using Shouldly;
@@ -7,10 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FamousQuoteQuiz.Business.Services;
-using FamousQuoteQuiz.Core.Identity;
-using FamousQuoteQuiz.Core.Models;
-using FamousQuoteQuiz.Data.Entities;
 using Xunit;
 
 namespace FamousQuoteQuiz.Business.Tests.Services

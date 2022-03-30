@@ -1,6 +1,6 @@
-﻿using System;
-using FamousQuoteQuiz.Business.Extensions;
+﻿using FamousQuoteQuiz.Business.Extensions;
 using FamousQuoteQuiz.Core.Generators;
+using System;
 
 namespace FamousQuoteQuiz.Business.Generators
 {

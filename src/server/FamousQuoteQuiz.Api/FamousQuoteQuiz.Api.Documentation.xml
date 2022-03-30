@@ -65,11 +65,5 @@
             <response code="201">A user was created.</response>
             <response code="400">Invalid input.</response>
         </member>
-        <member name="T:FamousQuoteQuiz.Api.OperationFilters.OptionOperationFilter">
-            <summary>
-            This operation filter only works on <see cref="T:Optional.Option"/> types that are contained in a class.
-            Optional values that are put as type parameters will not be properly displayed in Swagger, although they will work.
-            </summary>
-        </member>
     </members>
 </doc>

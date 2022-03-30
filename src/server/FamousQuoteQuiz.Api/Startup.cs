@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using FamousQuoteQuiz.Api.Configuration;
-using FamousQuoteQuiz.Api.Filters;
-using FamousQuoteQuiz.Api.ModelBinders;
 using FamousQuoteQuiz.Business.Generators;
 using FamousQuoteQuiz.Business.Identity;
 using FamousQuoteQuiz.Business.Services;
@@ -12,40 +10,36 @@ using FamousQuoteQuiz.Core.Services;
 using FamousQuoteQuiz.Data.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FamousQuoteQuiz.Api
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext(Configuration.GetConnectionString("DbConnectionString"));
             services.AddAutoMapper();
-            services.AddSwagger();
             services.AddJwtIdentity(Configuration.GetSection(nameof(JwtConfiguration)));
+            services.AddSwagger();
 
-            // Add Cors
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder
+                    .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
@@ -59,20 +53,20 @@ namespace FamousQuoteQuiz.Api
             services.AddTransient<IQuizQuestionService, QuizQuestionService>();
             services.AddTransient<IAuthorService, AuthorService>();
 
-            services.AddMvc(options =>
-            {
-                options.ModelBinderProviders.Insert(0, new OptionModelBinderProvider());
-                options.Filters.Add<ExceptionFilter>();
-                options.Filters.Add<ModelStateFilter>();
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services
+                .AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, ApplicationDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
-                dbContext.Database.EnsureCreated();
                 dbContext.Seed();
             }
             else
@@ -80,16 +74,20 @@ namespace FamousQuoteQuiz.Api
                 app.UseHsts();
             }
 
-            // Enable Cors
             app.UseCors("MyPolicy");
 
-            loggerFactory.AddLogging(Configuration.GetSection("Logging"));
+            loggerFactory.AddLogging();
 
-            app.UseHttpsRedirection();
             app.UseSwagger("My Web API.");
             app.UseStaticFiles();
+            app.UseRouting();
+
             app.UseAuthentication();
-            app.UseMvc();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

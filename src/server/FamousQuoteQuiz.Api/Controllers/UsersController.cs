@@ -1,12 +1,14 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using FamousQuoteQuiz.Core;
+﻿using FamousQuoteQuiz.Core;
 using FamousQuoteQuiz.Core.Models;
 using FamousQuoteQuiz.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace FamousQuoteQuiz.Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ApiController
     {
         private readonly IUsersService _usersService;

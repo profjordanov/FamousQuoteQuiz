@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using FamousQuoteQuiz.Core.Models;
+﻿using FamousQuoteQuiz.Core.Models;
 using Optional;
+using System.Threading.Tasks;
 
 namespace FamousQuoteQuiz.Core.Services
 {

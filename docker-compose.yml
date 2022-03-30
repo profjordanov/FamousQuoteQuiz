@@ -1,0 +1,37 @@
+version: "3.3"
+services:
+
+    data:
+        container_name: sqlserver
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports: 
+            - "1433:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=StrongPassword12!@
+        volumes: 
+            - sqldata:/var/opt/mssql 
+        networks: 
+            - quizsystem-network
+
+    quiz.api:
+        container_name: quizapi
+        image: profjordanov/quizapi:1.0
+        build:
+            context: ./src
+            dockerfile: ./server/FamousQuoteQuiz.Api/Dockerfile
+        ports: 
+            - "5000:80"
+        environment:
+            - ConnectionStrings__DbConnectionString=Server=sqlserver;Database=QuizDatabase;User Id=sa; Password=StrongPassword12!@;MultipleActiveResultSets=true
+        restart: on-failure
+        networks: 
+            - quizsystem-network
+        depends_on:
+            - data
+
+networks:
+    quizsystem-network:
+
+volumes:
+    sqldata:                        

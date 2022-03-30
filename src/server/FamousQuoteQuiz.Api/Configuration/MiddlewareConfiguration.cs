@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace FamousQuoteQuiz.Api.Configuration
@@ -19,11 +18,9 @@ namespace FamousQuoteQuiz.Api.Configuration
             });
         }
 
-        public static void AddLogging(this ILoggerFactory loggerFactory, IConfigurationSection loggingConfiguration)
+        public static void AddLogging(this ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(loggingConfiguration);
             loggerFactory.AddFile("logs/web-api-{Date}.log");
-            loggerFactory.AddDebug();
         }
     }
 }

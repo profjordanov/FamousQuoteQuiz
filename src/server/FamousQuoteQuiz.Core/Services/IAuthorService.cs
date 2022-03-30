@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using FamousQuoteQuiz.Data.Entities;
+﻿using FamousQuoteQuiz.Data.Entities;
+using System.Threading.Tasks;
 
 namespace FamousQuoteQuiz.Core.Services
 {
