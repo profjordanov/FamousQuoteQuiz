@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src *; style-src 'self' http://* 'unsafe-inline'; img-src 'self' data:; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+	<meta name="color-scheme" content="light dark">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="js/jquery-1.5.0.mobile.min.css">
+	<title>Quiz</title>
+</head>
+
+<body>
+	<!-- Binary Choice Page -->
+	<div data-role="page" id="binary-choice-quiestion-page">
+		<div data-role="header" class="header">
+			<h1 id="app-title">Welcome to the Quite Quiz!</h1>
+		</div>
+
+		<div role="main" class="ui-content">
+			<input type="hidden" id="bin-quote-id">
+			<input type="hidden" id="bin-quote-isTrue">
+			<input type="hidden" id="bin-quote-correct-author">
+
+			<h3 id="bin-quote-content" style="font-style: italic;">Quote</h3>
+			<p id="bin-quote-correct-answer" style="display: none;"></p>
+			<p id="who-is">
+				Did
+				<span id="bin-quote-author" style="font-size: large;">
+					author
+				</span>
+				say this?
+			</p>
+			<div id="yes-no-buttons">
+				<button class="btn" id="true-bin-answe-btn">Yes</button>
+				<button class="btn" id="false-bin-answe-btn">No</button>
+			</div>
+
+			<button class="btn btn-lg" id="next-bin-quest-btn" style="display: none;">
+				Next
+			</button>
+		</div>
+		<!-- end of page 1 content -->
+
+		<div data-role="footer" data-position="fixed">
+			<h4>Ue-varna class app</h4>
+		</div>
+		<!-- end page 1 footer -->
+
+		<!-- pop ups -->
+		<div id="bcq-correct-user-answer-popup" data-role="popup">
+			Correct! The right answer is <span id="bcq-correct-author-answer"></span>
+		</div>
+
+		<div id="bcq-incorrect-user-answer-popup" data-role="popup">
+			Sorry, you were wrong! The right answer is <span id="bcq-incorrect-author-answer"></span>
+		</div>
+
+		<div id="bcq-popup-end" data-role="popup">
+			Congratulations, that was the end of the quiz.
+		</div>
+		<!--end pop ups -->
+	</div>
+	<!-- end page 1 -->
+
+	<!-- jquery mobile page 2 -->
+	<div data-role="page" id="page2">
+		<div data-role="header">
+			<h1>Page 2</h1>
+		</div>
+
+		<div role="main" class="ui-content">
+			<h4>Page 2 content goes here</h4>
+			<a href="#page1">Goto page1</a>
+		</div>
+		<!-- end of page 2 content -->
+
+		<div data-role="footer" data-position="fixed">
+			<h4>Page 2 Footer</h4>
+		</div>
+		<!-- end page 2 footer -->
+	</div>
+	<!-- end page 2 -->
+
+	<script src="cordova.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js" id="cordova-jquery"></script>
+	<script type="text/javascript" id="jqm-trans-disable">
+		/* For having a faster transition */
+		$(document).on("mobileinit", function () {
+			$.mobile.defaultPageTransition = "none";
+			$.mobile.defaultDialogTransition = "none";
+		});
+	</script>
+	<script type="text/javascript" src="js/jquery-1.5.0.mobile.min.js"></script>
+	<script src="js/index.js"></script>
+</body>
+
+</html>
